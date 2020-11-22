@@ -2,16 +2,21 @@ import sys
 import random
 
 from PyQt5.QtGui import QPainter, QColor
-from PyQt5.QtWidgets import QApplication, QMainWindow
-from PyQt5 import uic
+from PyQt5.QtWidgets import QApplication, QWidget, QPushButton
 
 
-class MyWidget(QMainWindow):
+class MyWidget(QWidget):
     def __init__(self):
         super().__init__()
-        uic.loadUi('UI.ui', self)
+        self.initUI()
+
+    def initUI(self):
         self.do_paint = False
-        self.btn.clicked.connect(self.paint)
+        self.setGeometry(300, 300, 666, 550)
+        btn = QPushButton('Рисовать', self)
+        btn.resize(200, 50)
+        btn.move(235, 460)
+        btn.clicked.connect(self.paint)
 
     def paintEvent(self, event):
         if self.do_paint:
@@ -25,7 +30,8 @@ class MyWidget(QMainWindow):
         self.repaint()
 
     def draw_circle(self, qp):
-        qp.setBrush(QColor(255, 255, 0))
+        qp.setBrush(QColor(random.randrange(0, 255), random.randrange(0, 255),
+                           random.randrange(0, 255)))
         side = random.randrange(5, 100)
         qp.drawEllipse(random.randrange(0, 666 - side), random.randrange(0, 460 - side), side, side)
 
